@@ -51,3 +51,41 @@ nombre-del-proyecto/
 ├── package.json            # Información del proyecto y scripts de npm
 ├── node_modules/           # Dependencias instaladas automáticamente
 └── README.md               # Este archivo de documentación
+
+
+## 🧰 Notas para usuarios de Windows y PowerShell
+
+Si estás utilizando Windows con PowerShell y encuentras problemas al ejecutar comandos como `npx`, puede deberse a las políticas de seguridad del sistema. Aquí te dejamos algunos pasos para solucionarlo y poder ejecutar tus tests correctamente con la extensión de Playwright Test for VS Code:
+
+### 🛠️ Solución para errores de ejecución de scripts en PowerShell
+
+Si al usar `npx` recibes un mensaje como:
+
+npx : No se puede cargar el archivo ... porque la ejecución de scripts está deshabilitada en este sistema.
+
+
+Ejecuta este comando para permitir temporalmente la ejecución de scripts:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+Esto habilita la ejecución de scripts solo para la sesión actual y es seguro para desarrollo local.
+
+📦 Asegúrate de instalar las dependencias correctamente
+Si ves un error como:
+
+"playwright" no se reconoce como un comando interno o externo...
+
+Es probable que Playwright no esté instalado. Asegúrate de instalarlo así:
+
+npm install -D @playwright/test
+npx playwright install
+
+
+Esto instalará la librería de pruebas y los navegadores necesarios (Chromium, Firefox y WebKit).
+
+Después de esto, deberías poder correr tus tests desde:
+
+La terminal: npx playwright test
+
+O directamente desde VS Code con el botón "Run Test" (requiere el plugin instalado)
