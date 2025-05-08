@@ -1,0 +1,53 @@
+# Proyecto de Testing con Playwright
+
+Este proyecto utiliza https://playwright.dev/ para realizar pruebas automatizadas. A continuación, se describen los pasos para configurar el entorno desde cero en Windows y ejecutar un primer test de prueba.
+
+## 🚀 Requisitos previos
+
+Antes de empezar, asegúrate de tener instalado lo siguiente:
+
+- Node.js y npm: https://nodejs.org/ (npm viene incluido con Node.js)
+- Visual Studio Code: https://code.visualstudio.com/
+- Plugin de VS Code: Playwright Test for VS Code
+
+## 🛠️ Inicialización del Proyecto
+
+1. Inicializa un nuevo proyecto de Playwright
+
+Abre una terminal en la carpeta de tu proyecto y ejecuta:
+
+npm init playwright@latest
+
+Durante la instalación, Playwright te hará algunas preguntas:
+
+- Selecciona el lenguaje (JavaScript o TypeScript)
+- Selecciona el entorno (Node.js)
+- Elige los navegadores que deseas instalar (Chromium, Firefox, WebKit)
+- Si quieres incluir ejemplos de prueba (puedes decir que sí para empezar con algo básico)
+
+2. Abre el proyecto en Visual Studio Code
+
+Asegúrate de tener el plugin “Playwright Test for VS Code” instalado para acceder a funcionalidades como correr pruebas desde la interfaz.
+
+## 🧪 Ejecutar el primer test
+
+Si instalaste los ejemplos, deberías tener un archivo como tests/example.spec.js.
+
+Para correr las pruebas:
+
+npx playwright test
+
+También puedes usar el botón “Run Test” en VS Code si tienes el plugin instalado.
+
+Para ver el reporte HTML de las pruebas:
+
+npx playwright show-report
+
+## 📁 Estructura del repositorio
+
+nombre-del-proyecto/
+├── tests/                  # Carpeta que contiene los archivos de prueba (.spec.js)
+├── playwright.config.js    # Archivo de configuración de Playwright
+├── package.json            # Información del proyecto y scripts de npm
+├── node_modules/           # Dependencias instaladas automáticamente
+└── README.md               # Este archivo de documentación
