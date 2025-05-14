@@ -39,9 +39,65 @@ npx playwright test
 
 También puedes usar el botón “Run Test” en VS Code si tienes el plugin instalado.
 
-Para ver el reporte HTML de las pruebas:
+### Visualizar reporte HTML interactivo
 
+Si quieres ver un reporte visual, corre:
 npx playwright show-report
+
+Esto abrirá tu navegador predeterminado con un reporte muy claro de:
+
+- Cada test ejecutado
+- Duración
+- Screenshots (si los capturas)
+- Video (si está configurado)
+- Stacktrace en caso de fallos
+
+También puedes acceder manualmente al archivo generado en la carpeta: playwright-report/index.html
+
+### 🌐 Ejecutar los tests solo en Chromium
+Por defecto, Playwright ejecuta los tests en Chromium, Firefox y WebKit. Si deseas correr los tests únicamente en Chromium, tienes dos opciones:
+
+#### 🔧 Opción 1: Configurar playwright.config.ts
+Abre el archivo playwright.config.ts y reemplaza el bloque projects por el siguiente:
+
+```
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+  ],
+});
+```
+#### 🖥️ Opción 2: Ejecutar directamente desde CLI
+Si prefieres mantener la configuración con varios navegadores, puedes ejecutar tus pruebas en Chromium con el siguiente comando:
+npx playwright test --project=chromium
+
+## 👀 Modo Headless vs. Headed
+
+Por defecto, Playwright ejecuta las pruebas en **modo headless**, lo que significa que los navegadores se abren en segundo plano (sin interfaz gráfica visible). Esto hace que las pruebas sean más rápidas y se usen menos recursos.
+
+Si deseas **ver el navegador mientras se ejecutan los tests** (modo headed), puedes desactivar el modo headless con este comando:
+
+``` bash
+npx playwright test --headed
+```
+
+Esto es útil para depurar visualmente lo que ocurre durante la ejecución.
+
+También puedes configurarlo permanentemente en el archivo playwright.config.ts:
+
+use: {
+  headless: false,
+}
+
+Nota: Para entornos CI/CD, es recomendable mantener headless: true por eficiencia.
 
 ## 📁 Estructura del repositorio
 
@@ -66,8 +122,10 @@ npx : No se puede cargar el archivo ... porque la ejecución de scripts está de
 
 Ejecuta este comando para permitir temporalmente la ejecución de scripts:
 
-```powershell
+```
+powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
 
 Esto habilita la ejecución de scripts solo para la sesión actual y es seguro para desarrollo local.
 
@@ -89,3 +147,5 @@ Después de esto, deberías poder correr tus tests desde:
 La terminal: npx playwright test
 
 O directamente desde VS Code con el botón "Run Test" (requiere el plugin instalado)
+
+### 
