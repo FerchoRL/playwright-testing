@@ -12,6 +12,9 @@ yarn-error.log*
 playwright-report/
 test-results/
 
+# Screenshots
+snapshots-validations/
+
 # VSCode settings
 .vscode/
 
