@@ -33,11 +33,45 @@ Asegúrate de tener el plugin “Playwright Test for VS Code” instalado para a
 
 Si instalaste los ejemplos, deberías tener un archivo como tests/example.spec.js.
 
-Para correr las pruebas:
+🚀 Para correr las pruebas:
 
 npx playwright test
 
-También puedes usar el botón “Run Test” en VS Code si tienes el plugin instalado.
+🚀 También puedes usar el botón “Run Test” en VS Code si tienes el plugin instalado.
+
+🚀 Para correr un test especifico una opcion es indicarle su ruta exacta:
+
+`npx playwright test tests/specs/01-login.spec.ts `
+
+🚀 Playwright permite correr por el título del test:
+
+`npx playwright test -g "should login successfully with standard user"`
+
+🚀 Esto permite escribir una descripcion generica de la suite en el test.describe y asi correr mediante esa descripcion:
+
+test.describe('Login scenarios', () => {
+  ...
+});
+
+npx playwright test -g "Login scenarios"
+
+🚀 Si quieres correr multiples archivos relacionados con login, puedes organizarlo por carpeta:
+
+tests/
+├── login/
+│   └── login.spec.ts
+├── inventory/
+│   └── inventory.spec.ts
+
+npx playwright test tests/login
+
+🚀 Por ultimo si quieres correr los test marcados con .only:
+
+test.only('should login with valid user', async ({ loginPage }) => {
+  ...
+});
+
+npx playwright test
 
 ### Visualizar reporte HTML interactivo
 

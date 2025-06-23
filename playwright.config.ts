@@ -27,6 +27,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     headless: false,
+    screenshot: 'only-on-failure', // Solo guarda screenshots si el test falla
+    video: 'retain-on-failure', // Guarda video si falla el test
+    baseURL: 'https://www.saucedemo.com', // 👈 baseURL centralizado
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
