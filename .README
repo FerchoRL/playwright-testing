@@ -182,4 +182,105 @@ La terminal: npx playwright test
 
 O directamente desde VS Code con el botón "Run Test" (requiere el plugin instalado)
 
-### 
+### Inicializar .env file
+
+📦 1. Instalar dotenv
+
+`npm install dotenv`
+
+🗂️ 2. Crear el archivo .env
+
+🌐 Configuración por Entorno (`.env`)
+
+Este proyecto soporta múltiples entornos (`qa`, `stage`, `prod`) utilizando archivos `.env` separados, por ejemplo:
+
+- `.env.qa`
+- `.env.stage`
+- `.env.prod`
+
+cada archivo tendra sus respectivas variables
+```
+STANDARD_USER=standard_user
+PASSWORD=secret_sauce
+BASE_URL=https://www.saucedemo.com
+```
+La selección del entorno se realiza a través de la variable `ENV`. Un archivo de utilidad llamado `loadEnv.ts` se encarga de cargar automáticamente el archivo `.env` correspondiente con base en dicha variable.
+
+.env.qa
+.env.stage
+.env.prod
+utils/
+└── loadEnv.ts
+
+En `loadEnv.ts` se encuentra la lógica que carga el archivo `.env` correcto de forma dinámica. Este archivo ya está importado dentro del archivo `playwright.config.ts`.
+
+```ts
+// tests/utils/loadEnv.ts
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+// 🚨 Requiere definir ENV manualmente
+if (!process.env.ENV) {
+  throw new Error('❌ ENV variable is required. Use ENV=qa|stage|prod');
+}
+
+const envFile = `.env.${process.env.ENV}`;
+dotenv.config({ path: path.resolve(__dirname, `../${envFile}`) });
+
+console.log(`✅ Using env file: ${envFile}`);
+```
+
+---
+
+#### Carga de variables en env.ts
+
+```TS
+// tests/utils/env.ts
+import './loadEnv';
+
+function getEnvVariable(key: string): string {
+  const value = process.env[key];
+  if (!value) throw new Error(`❌ Environment variable ${key} is missing`);
+  return value;
+}
+
+export const STANDARD_USER = getEnvVariable('STANDARD_USER');
+export const PASSWORD = getEnvVariable('PASSWORD');
+export const BASE_URL = getEnvVariable('BASE_URL');
+export const LOCKED_OUT_USER = getEnvVariable('LOCKED_OUT_USER');
+```
+
+De momento se va a comentar los archivos para evitar problemas con el ejecutor de VSC ya que lo ejecuta dos veces cada test
+
+#### 🚀 Ejecutar Tests según el Entorno
+
+Puedes especificar el entorno al correr los tests usando la variable `ENV` antes del comando:
+
+```bash
+ENV=qa npx playwright test
+ENV=stage npx playwright test
+ENV=prod npx playwright test
+```
+
+Si no se especifica ENV, por defecto se carga .env.qa.
+
+⚠️ Asegúrate de agregar el archivo .env al .gitignore para no subirlo al repositorio.
+
+Archivos de entorno - nunca deben subirse
+.env
+.env.*
+
+🧪 3. Cargar las variables en tu código
+En cualquier archivo donde necesites usar estas variables, importa y configura dotenv así:
+
+```
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+// Luego puedes acceder a las variables
+const user = process.env.STANDARD_USER;
+const password = process.env.PASSWORD;
+```
+
+
+###
