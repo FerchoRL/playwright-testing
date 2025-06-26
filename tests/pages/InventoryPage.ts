@@ -48,7 +48,23 @@ export class InventoryPage {
     async addToCartByProductName(productName: string) {
         const { addToCartButton } = this.getItemElementsByName(productName);
         await addToCartButton.click();
+    }
 
+    //Eliminar producto por nombre del carrito
+    async removeFromCartByProductName(productName: string){
+        const item = this.getItemByName(productName);
+        const removeItemButton = item.locator('button:has-text("Remove")');
+        await removeItemButton.click();
+
+    }
+
+    //Elimina los items que hagan match con la palabra de busqueda
+    async removeItemsByNameMatch(items: string[], keyword: string){
+        for (const itemName of items){
+            if (itemName.toLowerCase().includes(keyword.toLowerCase())){
+                await this.removeFromCartByProductName(itemName);
+            }
+        }
     }
 
     //Retorno el numero total de items
